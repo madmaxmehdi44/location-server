@@ -11,18 +11,21 @@
     "prisma:migrate": "prisma migrate deploy"
   },
   "dependencies": {
-    "@prisma/client": "^6.13.0",
+    
+    
+    
     "bcryptjs": "^3.0.2",
-    "jsonwebtoken": "^9.0.2",
+    "@prisma/client": "^6.13.0",
     "leaflet": "^1.9.4",
     "next": "15.4.6",
     "react": "19.1.0",
     "react-dom": "19.1.0",
     "react-leaflet": "^5.0.0",
-    "react-leaflet-markercluster": "^5.0.0-rc.0",
-    "zod": "^4.0.15"
+    "zod": "^4.0.15",
+    "jsonwebtoken": "^9.0.2"
   },
   "devDependencies": {
+    "prisma": "^6.13.0",
     "@eslint/eslintrc": "^3.3.1",
     "@tailwindcss/postcss": "^4.1.11",
     "@types/jsonwebtoken": "^9.0.10",
@@ -32,7 +35,6 @@
     "@types/react-dom": "^19.1.7",
     "eslint": "^9.33.0",
     "eslint-config-next": "15.4.6",
-    "prisma": "^6.13.0",
     "tailwindcss": "^4.1.11",
     "typescript": "^5.9.2"
   }

@@ -88,15 +88,12 @@ export default function DashboardPage() {
             {loading ? (
                 <p>در حال بارگذاری موقعیت‌ها…</p>
             ) : (
-                <MapContainer center={[35.6892, 51.3890]} zoom={10} maxZoom={18} style={{ height: '70vh', width: '100%' }}>
+                <MapContainer center={[35.6892, 51.3890]} zoom={10}  maxZoom={18} style={{ height: '70vh', width: '100%' }}>
                     <TileLayer
                         attribution="&copy; OpenStreetMap contributors"
                         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                     />
-                    <MarkerClusterGroup maxClusterRadius={40}
-                        showCoverageOnHover={false}
-                        spiderfyOnMaxZoom={true}
-                    >
+                    <MarkerClusterGroup>
                         {
 
                             locations.map((loc: { id: Key | null | undefined; latitude: number; longitude: number; username: string | number | bigint | boolean | ReactElement<unknown, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | Promise<string | number | bigint | boolean | ReactPortal | ReactElement<unknown, string | JSXElementConstructor<any>> | Iterable<ReactNode> | null | undefined> | null | undefined; timestamp: string | number | Date }) => (

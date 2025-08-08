@@ -8,16 +8,33 @@ import dynamic from 'next/dynamic'
 import L from 'leaflet'
 import MarkerClusterGroup from 'react-leaflet-markercluster'
 
-type Location = {
-    id: string
-    username: string
-    latitude: number
-    longitude: number
-    timestamp: string
+
+
+    // داخل MapContainer:
+    <MarkerClusterGroup>
+{
+    locations.map((loc: { id: Key | null | undefined; latitude: number; longitude: number; username: string | number | bigint | boolean | ReactElement<unknown, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | Promise<string | number | bigint | boolean | ReactPortal | ReactElement<unknown, string | JSXElementConstructor<any>> | Iterable<ReactNode> | null | undefined> | null | undefined; timestamp: string | number | Date }) => (
+        <Marker key={loc.id} position={[loc.latitude, loc.longitude]}>
+            <Popup>
+                کاربر: {loc.username}
+                <br />
+                زمان: {new Date(loc.timestamp).toLocaleString('fa-IR')}
+            </Popup>
+        </Marker>
+    ))
 }
+</MarkerClusterGroup >
 
-
-
+const locations: Location[] = [
+    {
+        id: "1",
+        latitude: 35.6892,
+        longitude: 51.3890,
+        username: 'مهدی',
+        timestamp: new Date(),
+    },
+    // موارد بیشتر...
+]
 // بارگذاری کامپوننت‌های react-leaflet به‌صورت دینامیک
 const MapContainer = dynamic(
     () => import('react-leaflet').then((mod) => mod.MapContainer),
@@ -44,7 +61,13 @@ L.Icon.Default.mergeOptions({
     shadowUrl: '/leaflet/images/marker-shadow.png',
 })
 
-
+type Location = {
+    id: string
+    username: string
+    latitude: number
+    longitude: number
+    timestamp: string
+}
 
 export default function DashboardPage() {
     const router = useRouter()
@@ -88,30 +111,12 @@ export default function DashboardPage() {
             {loading ? (
                 <p>در حال بارگذاری موقعیت‌ها…</p>
             ) : (
-                <MapContainer center={[35.6892, 51.3890]} zoom={10} maxZoom={18} style={{ height: '70vh', width: '100%' }}>
+                <MapContainer center={[35.6892, 51.3890]} zoom={6} style={{ height: '70vh', width: '100%' }}>
                     <TileLayer
                         attribution="&copy; OpenStreetMap contributors"
                         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                     />
-                    <MarkerClusterGroup maxClusterRadius={40}
-                        showCoverageOnHover={false}
-                        spiderfyOnMaxZoom={true}
-                    >
-                        {
-
-                            locations.map((loc: { id: Key | null | undefined; latitude: number; longitude: number; username: string | number | bigint | boolean | ReactElement<unknown, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | Promise<string | number | bigint | boolean | ReactPortal | ReactElement<unknown, string | JSXElementConstructor<any>> | Iterable<ReactNode> | null | undefined> | null | undefined; timestamp: string | number | Date }) => (
-                                <Marker key={loc.id} position={[loc.latitude, loc.longitude]}>
-                                    <Popup>
-                                        کاربر: {loc.username}
-                                        <br />
-                                        زمان: {new Date(loc.timestamp).toLocaleString('fa-IR')}
-                                    </Popup>
-                                </Marker>
-                            ))
-                        }
-                    </MarkerClusterGroup >
-
-                    {/* <MarkerClusterGroup>
+                    <MarkerClusterGroup>
                         {locations.map((loc) => (
                             <Marker key={loc.id} position={[loc.latitude, loc.longitude]}>
                                 <Popup>
@@ -121,7 +126,7 @@ export default function DashboardPage() {
                                 </Popup>
                             </Marker>
                         ))}
-                    </MarkerClusterGroup> */}
+                    </MarkerClusterGroup>
                 </MapContainer>
             )}
         </div>
