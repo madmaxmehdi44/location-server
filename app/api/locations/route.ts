@@ -43,6 +43,7 @@ export async function GET(req: NextRequest) {
         lat: r.lat,
         lng: r.lng,
         accuracy: r.accuracy,
+        
         ts: r.createdAt.toISOString(),
       }))
     );

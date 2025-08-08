@@ -1,129 +1,41 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 // app/dashboard/page.tsx
-'use client'
+'use client';
 
-import { useState, useEffect, JSXElementConstructor, Key, ReactElement, ReactNode, ReactPortal } from 'react'
-import { useRouter } from 'next/navigation'
-import dynamic from 'next/dynamic'
-import L from 'leaflet'
-import MarkerClusterGroup from 'react-leaflet-markercluster'
+import { useEffect, useState } from 'react';
+import { Chart } from 'chart.js/auto';
+import dynamic from 'next/dynamic';
+import Image from 'next/image';
 
-type Location = {
-    id: string
-    username: string
-    latitude: number
-    longitude: number
-    timestamp: string
-}
+// Load chart dynamically (if it's heavy)
+// const ChartComponent = dynamic(() => import('../../components/ChartComponent'), {
+//   ssr: false,
+// });
 
+export default function Dashboard() {
+  const [userCount, setUserCount] = useState(0);
 
+  useEffect(() => {
+    // مثال: دریافت آمار از API
+    fetch('/api/users/count')
+      .then(res => res.json())
+      .then(data => setUserCount(data.total));
+  }, []);
 
-// بارگذاری کامپوننت‌های react-leaflet به‌صورت دینامیک
-const MapContainer = dynamic(
-    () => import('react-leaflet').then((mod) => mod.MapContainer),
-    { ssr: false }
-)
-const TileLayer = dynamic(
-    () => import('react-leaflet').then((mod) => mod.TileLayer),
-    { ssr: false }
-)
-const Marker = dynamic(
-    () => import('react-leaflet').then((mod) => mod.Marker),
-    { ssr: false }
-)
-const Popup = dynamic(
-    () => import('react-leaflet').then((mod) => mod.Popup),
-    { ssr: false }
-)
+  return (
+    <div className="p-6 bg-gray-50 min-h-screen">
+      <h1 className="text-3xl font-bold text-gray-800 mb-4">داشبورد</h1>
 
-// آیکون پیش‌فرض Leaflet را تنظیم می‌کنیم (به دلیل باگ در آدرس‌دهی)
-delete (L.Icon.Default as any).prototype._getIconUrl
-L.Icon.Default.mergeOptions({
-    iconRetinaUrl: '/leaflet/images/marker-icon-2x.png',
-    iconUrl: '/leaflet/images/marker-icon.png',
-    shadowUrl: '/leaflet/images/marker-shadow.png',
-})
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        {/* <Card title="تعداد کاربران" value={userCount} icon="👥" /> */}
+        {/* <Card title="بازدید امروز" value="1532" icon="📈" /> */}
+        {/* <Card title="درآمد ماه" value="$6,423" icon="💰" /> */}
+      </div>
 
-
-
-export default function DashboardPage() {
-    const router = useRouter()
-    const [token, setToken] = useState<string | null>(null)
-    const [locations, setLocations] = useState<Location[]>([])
-    const [loading, setLoading] = useState(true)
-
-    // بررسی توکن و دریافت داده‌ها
-    useEffect(() => {
-        const t = localStorage.getItem('token')
-        if (!t) return router.replace('/login')
-        setToken(t)
-
-        fetch('/api/locations', {
-            headers: { Authorization: `Bearer ${t}` },
-        })
-            .then((res) => res.json())
-            .then((data) => {
-                setLocations(data.locations || [])
-                setLoading(false)
-            })
-            .catch(() => setLoading(false))
-    }, [router])
-
-    const handleLogout = () => {
-        localStorage.removeItem('token')
-        router.push('/login')
-    }
-
-    if (!token) {
-        return <p>در حال انتقال به صفحه‌ی ورود…</p>
-    }
-
-    return (
-        <div>
-            <header style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <h2>داشبورد نقشه</h2>
-                <button onClick={handleLogout}>خروج</button>
-            </header>
-
-            {loading ? (
-                <p>در حال بارگذاری موقعیت‌ها…</p>
-            ) : (
-                <MapContainer center={[35.6892, 51.3890]} zoom={10} maxZoom={18} style={{ height: '70vh', width: '100%' }}>
-                    <TileLayer
-                        attribution="&copy; OpenStreetMap contributors"
-                        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                    />
-                    <MarkerClusterGroup maxClusterRadius={40}
-                        showCoverageOnHover={false}
-                        spiderfyOnMaxZoom={true}
-                    >
-                        {
-
-                            locations.map((loc: { id: Key | null | undefined; latitude: number; longitude: number; username: string | number | bigint | boolean | ReactElement<unknown, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | Promise<string | number | bigint | boolean | ReactPortal | ReactElement<unknown, string | JSXElementConstructor<any>> | Iterable<ReactNode> | null | undefined> | null | undefined; timestamp: string | number | Date }) => (
-                                <Marker key={loc.id} position={[loc.latitude, loc.longitude]}>
-                                    <Popup>
-                                        کاربر: {loc.username}
-                                        <br />
-                                        زمان: {new Date(loc.timestamp).toLocaleString('fa-IR')}
-                                    </Popup>
-                                </Marker>
-                            ))
-                        }
-                    </MarkerClusterGroup >
-
-                    {/* <MarkerClusterGroup>
-                        {locations.map((loc) => (
-                            <Marker key={loc.id} position={[loc.latitude, loc.longitude]}>
-                                <Popup>
-                                    کاربر: {loc.username}
-                                    <br />
-                                    زمان: {new Date(loc.timestamp).toLocaleString('fa-IR')}
-                                </Popup>
-                            </Marker>
-                        ))}
-                    </MarkerClusterGroup> */}
-                </MapContainer>
-            )}
-        </div>
-    )
+      <div className="mt-8">
+        <h2 className="text-xl font-semibold text-gray-700 mb-2">نمودار فعالیت</h2>
+        {/* <ChartComponent /> */}
+      </div>
+    </div>
+  );
 }

@@ -13,13 +13,16 @@
   "dependencies": {
     "@prisma/client": "^6.13.0",
     "bcryptjs": "^3.0.2",
+    "chart.js": "^4.5.0",
     "jsonwebtoken": "^9.0.2",
     "leaflet": "^1.9.4",
+    "leaflet.markercluster": "^1.5.3",
     "next": "15.4.6",
     "react": "19.1.0",
     "react-dom": "19.1.0",
     "react-leaflet": "^5.0.0",
     "react-leaflet-markercluster": "^5.0.0-rc.0",
+    "yarn": "^1.22.22",
     "zod": "^4.0.15"
   },
   "devDependencies": {

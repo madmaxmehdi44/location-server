@@ -24,7 +24,7 @@ export default function LoginPage() {
             setError(data.error);
         } else {
             localStorage.setItem('token', data.token);
-            router.push('/dashboard');
+            router.push('/');
         }
     };
 
