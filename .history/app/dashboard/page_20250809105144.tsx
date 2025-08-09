@@ -15,7 +15,7 @@ interface ChartPoint {
 export default function Dashboard() {
   const [stats, setStats] = useState({ users: 0, locations: 0 });
   const [users, setUsers] = useState([]);
-  // const [chartData, setChartData] = useState([]);
+  const [chartData, setChartData] = useState([]);
   // صفحه dashboard.tsx
 
 

@@ -15,31 +15,31 @@ interface ChartPoint {
 export default function Dashboard() {
   const [stats, setStats] = useState({ users: 0, locations: 0 });
   const [users, setUsers] = useState([]);
-  // const [chartData, setChartData] = useState([]);
-  // صفحه dashboard.tsx
+  const [chartData, setChartData] = useState([]);
+// صفحه dashboard.tsx
 
 
-  // ۲) استفاده از Generic در useState
-  const [chartData, setChartData] = useState<ChartPoint[]>([]);
+// ۲) استفاده از Generic در useState
+const [chartData, setChartData] = useState<ChartPoint[]>([]);
 
-  useEffect(() => {
-    fetchLocations().then(data => {
-      const grouped = groupByDay(data);
-      setChartData(grouped);
-    });
-  }, []);
+useEffect(() => {
+  fetchLocations().then(data => {
+    const grouped = groupByDay(data);
+    setChartData(grouped);
+  });
+}, []);
 
 
-  function groupByDay(
-    locations: { timestamp: string; /* سایر فیلدها */ }[]
-  ): ChartPoint[] {
-    const map: Record<string, number> = {};
-    locations.forEach(loc => {
-      const day = new Date(loc.timestamp).toLocaleDateString('fa-IR');
-      map[day] = (map[day] || 0) + 1;
-    });
-    return Object.entries(map).map(([day, count]) => ({ day, count }));
-  }
+function groupByDay(
+  locations: { timestamp: string; /* سایر فیلدها */ }[]
+): ChartPoint[] {
+  const map: Record<string, number> = {};
+  locations.forEach(loc => {
+    const day = new Date(loc.timestamp).toLocaleDateString('fa-IR');
+    map[day] = (map[day] || 0) + 1;
+  });
+  return Object.entries(map).map(([day, count]) => ({ day, count }));
+}
 
 
   return (

@@ -4,6 +4,10 @@ import UserTable from '../components/UserTable';
 import LocationChart from '../components/LocationChart';
 import { fetchLocations, fetchStats, fetchUsers } from '@/lib/client/api';
 
+export default function Dashboard() {
+  const [stats, setStats] = useState({ users: 0, locations: 0 });
+  const [users, setUsers] = useState([]);
+  const [chartData, setChartData] = useState([]);
 
 // ۱) تعریف یک اینترفیس یا تایپ کمکی
 interface ChartPoint {
@@ -11,28 +15,18 @@ interface ChartPoint {
   count: number;
 }
 
-
-export default function Dashboard() {
-  const [stats, setStats] = useState({ users: 0, locations: 0 });
-  const [users, setUsers] = useState([]);
-  // const [chartData, setChartData] = useState([]);
-  // صفحه dashboard.tsx
-
-
-  // ۲) استفاده از Generic در useState
-  const [chartData, setChartData] = useState<ChartPoint[]>([]);
-
+// ۲) استفاده از Generic در useState
+const [chartData, setChartData] = useState<ChartPoint
   useEffect(() => {
+    fetchStats().then(setStats);
+    fetchUsers().then(setUsers);
     fetchLocations().then(data => {
       const grouped = groupByDay(data);
       setChartData(grouped);
     });
   }, []);
 
-
-  function groupByDay(
-    locations: { timestamp: string; /* سایر فیلدها */ }[]
-  ): ChartPoint[] {
+  function groupByDay(locations: any[]) {
     const map: Record<string, number> = {};
     locations.forEach(loc => {
       const day = new Date(loc.timestamp).toLocaleDateString('fa-IR');
@@ -40,7 +34,6 @@ export default function Dashboard() {
     });
     return Object.entries(map).map(([day, count]) => ({ day, count }));
   }
-
 
   return (
     <div className="p-6 space-y-6">
