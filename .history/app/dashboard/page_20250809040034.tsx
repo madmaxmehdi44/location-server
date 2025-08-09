@@ -6,12 +6,11 @@ import { useEffect, useState } from 'react';
 import { Chart } from 'chart.js/auto';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
-import Card from '../components/Card';
 
 // Load chart dynamically (if it's heavy)
-const ChartComponent = dynamic(() => import('../components/ChartComponent'), {
-  ssr: false,
-});
+// const ChartComponent = dynamic(() => import('../../components/ChartComponent'), {
+//   ssr: false,
+// });
 
 export default function Dashboard() {
   const [userCount, setUserCount] = useState(0);
@@ -30,12 +29,12 @@ export default function Dashboard() {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <Card title="تعداد کاربران" value={userCount} icon="👥" />
         <Card title="بازدید امروز" value="1532" icon="📈" />
-        <Card title="درآمد ماه" value="$6,423" icon="💰" />
+        {/* <Card title="درآمد ماه" value="$6,423" icon="💰" /> */}
       </div>
 
       <div className="mt-8">
         <h2 className="text-xl font-semibold text-gray-700 mb-2">نمودار فعالیت</h2>
-        <ChartComponent />
+        {/* <ChartComponent /> */}
       </div>
     </div>
   );

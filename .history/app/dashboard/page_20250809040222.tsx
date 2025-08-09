@@ -9,9 +9,9 @@ import Image from 'next/image';
 import Card from '../components/Card';
 
 // Load chart dynamically (if it's heavy)
-const ChartComponent = dynamic(() => import('../components/ChartComponent'), {
-  ssr: false,
-});
+// const ChartComponent = dynamic(() => import('../../components/ChartComponent'), {
+//   ssr: false,
+// });
 
 export default function Dashboard() {
   const [userCount, setUserCount] = useState(0);
@@ -35,7 +35,7 @@ export default function Dashboard() {
 
       <div className="mt-8">
         <h2 className="text-xl font-semibold text-gray-700 mb-2">نمودار فعالیت</h2>
-        <ChartComponent />
+        {/* <ChartComponent /> */}
       </div>
     </div>
   );

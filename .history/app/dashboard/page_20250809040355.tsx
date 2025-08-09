@@ -35,7 +35,7 @@ export default function Dashboard() {
 
       <div className="mt-8">
         <h2 className="text-xl font-semibold text-gray-700 mb-2">نمودار فعالیت</h2>
-        <ChartComponent />
+        {/* <ChartComponent /> */}
       </div>
     </div>
   );

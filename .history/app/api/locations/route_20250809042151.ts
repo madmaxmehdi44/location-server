@@ -37,7 +37,8 @@ export async function GET(req: NextRequest) {
     });
 
     return ok(
-      items.map((r: { userId: unknown; user: { username: unknown; }; lat: unknown; lng: unknown; accuracy: unknown; createdAt: { toISOString: () => unknown; }; }) => ({
+      items.map((r: { userId: unknown; user: { username: unknown; }; lat: unknown; lng:       items.map((r: { userId: unknown; user: { username: unknown; }; lat: unknown; lng: any; accuracy: any; createdAt: { toISOString: () => any; }; }) => ({
+        ; accuracy: any; createdAt: { toISOString: () => any; }; }) => ({
         userId: r.userId,
         username: r.user.username,
         lat: r.lat,
